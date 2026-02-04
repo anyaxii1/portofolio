@@ -1,694 +1,920 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Northern Italy — Destinasi Premium Minimalis</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Konfigurasi Tailwind untuk Font Inter dan Palet Warna Premium -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary': '#003366', // Deep Navy Blue (Premium)
-                        'accent': '#B8860B', // Dark Gold/Bronze
-                        'bg-light': '#F8F8F8', // Off-White
-                        'text-dark': '#333333',
-                        'bg-dark': '#1C1C1C', // Dark Charcoal
-                        'text-light': '#E0E0E0',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    // Animasi untuk simulasi scroll/reveal
-                    animation: {
-                        'slide-up': 'slideUp 0.6s ease-out forwards',
-                    },
-                    keyframes: {
-                        slideUp: {
-                            '0%': { opacity: 0, transform: 'translateY(20px)' },
-                            '100%': { opacity: 1, transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Gaya dasar untuk Dark/Light Mode */
-        .light {
-            background-color: theme('colors.bg-light');
-            color: theme('colors.text-dark');
-        }
-        .dark {
-            background-color: theme('colors.bg-dark');
-            color: theme('colors.text-light');
-        }
-        /* Sidebar tetap tersembunyi secara default, hanya muncul di mobile */
-        #sidebar-menu {
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(100%);
-        }
-        #sidebar-menu.active {
-            transform: translateX(0);
-        }
-        /* Styling untuk Parallax/Video Background (Simulasi) */
-        .hero-bg {
-            background-image: url('https://placehold.co/1920x1080/003366/FFFFFF?text=Pemandangan+Danau+Como');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Efek Parallax */
-            height: 80vh;
-        }
-    </style>
-</head>
-<body class="light font-sans transition-colors duration-500" x-data="{ isMenuOpen: false }">
-
-    <!-- 1.a & 1.g: Header / Navbar (Navigasi Utama & Responsif) -->
-    <header class="sticky top-0 z-40 shadow-lg backdrop-blur-md bg-opacity-80 dark:bg-opacity-80 transition-all duration-300 dark:bg-bg-dark bg-bg-light">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <!-- Logo Brand -->
-            <a href="#" class="text-2xl font-bold tracking-wider text-primary dark:text-accent">Northern Italia</a>
-
-            <!-- Navigasi Desktop -->
-            <div class="hidden lg:flex space-x-8 items-center">
-                <a href="#destinasi" class="nav-link">Destinasi</a>
-                <a href="#galeri" class="nav-link">Galeri</a>
-                <a href="#reservasi" class="nav-link">Reservasi</a>
-                <a href="#blog" class="nav-link">Blog</a>
-                <a href="#kontak" class="nav-link">Kontak</a>
-
-                <!-- 1.e: Search Bar Desktop -->
-                <div class="relative">
-                    <input type="text" placeholder="Cari..." class="py-1 px-3 border border-gray-300 dark:border-gray-700 rounded-full text-sm dark:bg-bg-dark bg-bg-light focus:outline-none focus:ring-2 focus:ring-accent transition duration-300">
-                    <button class="absolute right-0 top-0 mt-1 mr-2 text-gray-500 dark:text-gray-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Kontrol Aksi: Dark/Light & Bahasa -->
-            <div class="flex items-center space-x-4">
-                <!-- 2.d & 3.m: Multibahasa (Language Switcher) -->
-                <button id="lang-switcher" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300 text-sm font-medium border border-primary dark:border-accent dark:text-accent text-primary">ID/EN</button>
-
-                <!-- 2.a & 3.p: Dark / Light Mode Toggle -->
-                <button id="dark-mode-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">
-                    <!-- Icon Light Mode (Sun) -->
-                    <svg id="sun-icon" class="w-6 h-6 hidden text-yellow-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3a9 9 0 109 9c0-.62-.1-1.22-.29-1.78a.99.99 0 00-1.88.58 7 7 0 11-7.85 7.85c-.3-.8-.47-1.66-.47-2.57 0-4.96 4.04-9 9-9z"></path></svg>
-                    <!-- Icon Dark Mode (Moon) -->
-                    <svg id="moon-icon" class="w-6 h-6 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M20 15a8 8 0 11-8-8c0 4.41 3.59 8 8 8zM2 12a10 10 0 1020 0 10 10 0 00-20 0z"></path></svg>
-                </button>
-
-                <!-- Tombol Menu Mobile -->
-                <button id="menu-toggle" class="lg:hidden p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-            </div>
-        </nav>
-    </header>
-
-    <!-- 1.d: Sidebar (Mobile) -->
-    <div id="sidebar-menu" class="fixed top-0 right-0 h-full w-64 bg-bg-light dark:bg-gray-900 shadow-2xl z-50 p-6 lg:hidden flex flex-col items-start space-y-4">
-        <button id="close-menu" class="absolute top-4 right-4 p-2 text-primary dark:text-text-light">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <h3 class="text-lg font-bold mb-4 mt-8 text-primary dark:text-accent">Menu</h3>
-        <a href="#destinasi" class="sidebar-link">Destinasi</a>
-        <a href="#galeri" class="sidebar-link">Galeri</a>
-        <a href="#reservasi" class="sidebar-link">Reservasi</a>
-        <a href="#blog" class="sidebar-link">Blog</a>
-        <a href="#kontak" class="sidebar-link">Kontak</a>
-        <hr class="w-full border-gray-300 dark:border-gray-700 my-4">
-        <!-- 1.e: Search Bar Mobile -->
-        <input type="text" placeholder="Cari..." class="w-full py-2 px-4 border border-gray-300 dark:border-gray-700 rounded-lg text-sm dark:bg-bg-dark bg-bg-light focus:outline-none focus:ring-2 focus:ring-accent transition duration-300">
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anya Khairanisa - Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary: #10B981;
+      --primary-dark: #059669;
+      --secondary: #F0FDF4;
+      --accent: #065F46;
+      --text-dark: #1F2937;
+      --text-light: #6B7280;
+    }
+    
+    * {
+      scroll-behavior: smooth;
+    }
+    
+    .font-display {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .font-body {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 50%, #D1FAE5 100%);
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(16, 185, 129, 0.1);
+    }
+    
+    .hover-lift {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .hover-lift:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+    }
+    
+    .nav-link {
+      position: relative;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #10B981, #059669);
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .skill-bar {
+      background: linear-gradient(90deg, #10B981 0%, #34D399 100%);
+      transition: width 1s ease-out;
+    }
+    
+    .floating {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeIn 0.8s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    .stagger-4 { animation-delay: 0.4s; }
+    .stagger-5 { animation-delay: 0.5s; }
+    
+    .profile-ring {
+      background: linear-gradient(135deg, #10B981 0%, #34D399 50%, #6EE7B7 100%);
+      padding: 4px;
+    }
+    
+    .search-input:focus {
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: scale(1.05);
+    }
+    
+    .sidebar-open {
+      transform: translateX(0) !important;
+    }
+    
+    .portfolio-card {
+      overflow: hidden;
+    }
+    
+    .portfolio-card img {
+      transition: transform 0.5s ease;
+    }
+    
+    .portfolio-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -27px;
+      top: 8px;
+      width: 12px;
+      height: 12px;
+      background: #10B981;
+      border-radius: 50%;
+      border: 3px solid #D1FAE5;
+    }
+    
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #10B981, transparent);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-body text-gray-800 gradient-bg">
+  <div id="app-wrapper" class="h-full w-full overflow-auto"><!-- Sidebar (Mobile) -->
+   <div id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 lg:hidden">
+    <div class="p-6">
+     <div class="flex items-center justify-between mb-8"><span class="font-display text-xl font-bold text-emerald-600">Menu</span> <button onclick="toggleSidebar()" class="p-2 hover:bg-emerald-50 rounded-full transition">
+       <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <nav class="space-y-4"><a href="#home" onclick="toggleSidebar()" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg transition">🏠 Beranda</a> <a href="#about" onclick="toggleSidebar()" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg transition">👤 Tentang</a> <a href="#skills" onclick="toggleSidebar()" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg transition">⚡ Keahlian</a> <a href="#portfolio" onclick="toggleSidebar()" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg transition">💼 Portofolio</a> <a href="#contact" onclick="toggleSidebar()" class="block py-3 px-4 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg transition">📧 Kontak</a>
+     </nav>
+     <div class="mt-8 pt-8 border-t border-gray-100">
+      <p class="text-sm text-gray-500 mb-4">Ikuti Saya</p>
+      <div class="flex space-x-3"><a href="https://www.instagram.com/akhairaan/" target="_blank" rel="noopener noreferrer" class="p-3 bg-emerald-50 hover:bg-emerald-100 rounded-full transition">
+        <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewbox="0 0 24 24">
+         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        </svg></a> <a href="https://www.tiktok.com/@akhaira.n" target="_blank" rel="noopener noreferrer" class="p-3 bg-emerald-50 hover:bg-emerald-100 rounded-full transition">
+        <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewbox="0 0 24 24">
+         <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+        </svg></a> <a href="#" target="_blank" rel="noopener noreferrer" class="p-3 bg-emerald-50 hover:bg-emerald-100 rounded-full transition">
+        <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewbox="0 0 24 24">
+         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+        </svg></a>
+      </div>
+     </div>
     </div>
-
-
-    <!-- 1.b & 2.i: Hero Section (Bagian Utama Atas dengan Simulasi Video Background) -->
-    <section id="hero" class="hero-bg flex items-center justify-center text-center p-12 lg:p-24 relative overflow-hidden">
-        <!-- Overlay untuk Kontras Teks -->
-        <div class="absolute inset-0 bg-primary opacity-60 dark:opacity-70"></div>
-        <div class="relative z-10">
-            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-bg-light mb-6 animate-slide-up" style="animation-delay: 0.1s;">
-                Pesona Abadi Northern Italia
-            </h1>
-            <p class="text-xl sm:text-2xl text-text-light mb-10 max-w-4xl mx-auto animate-slide-up" style="animation-delay: 0.3s;">
-                Temukan keindahan Danau Como, pegunungan Dolomiti, dan budaya kaya Milan dalam sentuhan premium.
-            </p>
-            <button class="btn-primary animate-slide-up" style="animation-delay: 0.5s;" onclick="openVirtualTour()">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.55 4.55a.5.5 0 01-.35.85H5.8a.5.5 0 01-.35-.85L10 10m5 0v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-7l5-5z"></path></svg>
-                Virtual Tour 360°
-            </button>
+   </div><!-- Overlay -->
+   <div id="overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div><!-- Header / Navbar -->
+   <header class="fixed top-0 left-0 right-0 z-30 glass-card">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="flex items-center justify-between h-20"><!-- Logo & Name -->
+      <div class="flex items-center space-x-3">
+       <div class="profile-ring rounded-full"><img id="header-photo" src="https://pin.it/7b5WT2MdZ" alt="Profile" class="w-10 h-10 rounded-full object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #10B981, #34D399)'; this.alt='Photo';">
+       </div>
+       <div>
+        <h1 id="site-name" class="font-display text-lg font-bold text-gray-800">Anya Khairanisa</h1>
+        <p id="site-tagline" class="text-xs text-emerald-600 font-medium">Crafting your success.</p>
+       </div>
+      </div><!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center space-x-8"><a href="#home" class="nav-link text-gray-700 hover:text-emerald-600 font-medium transition">Beranda</a> <a href="#about" class="nav-link text-gray-700 hover:text-emerald-600 font-medium transition">Tentang</a> <a href="#skills" class="nav-link text-gray-700 hover:text-emerald-600 font-medium transition">Keahlian</a> <a href="#portfolio" class="nav-link text-gray-700 hover:text-emerald-600 font-medium transition">Portofolio</a> <a href="#contact" class="btn-primary px-6 py-2.5 text-white font-medium rounded-full shadow-lg">Kontak</a>
+      </nav><!-- Search & Mobile Menu -->
+      <div class="flex items-center space-x-4"><!-- Search Bar -->
+       <div class="hidden md:block relative"><input type="text" id="search-input" placeholder="Cari..." class="search-input w-48 pl-10 pr-4 py-2 bg-white/80 border border-emerald-100 rounded-full text-sm focus:outline-none focus:border-emerald-300 transition">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+       </div><!-- Mobile Menu Button --> <button onclick="toggleSidebar()" class="lg:hidden p-2 hover:bg-emerald-50 rounded-full transition">
+        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg></button>
+      </div>
+     </div>
+    </div>
+   </header><!-- Main Content -->
+   <main class="pt-20"><!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8">
+     <div class="max-w-7xl mx-auto w-full">
+      <div class="grid lg:grid-cols-2 gap-12 items-center"><!-- Text Content -->
+       <div class="fade-in stagger-1"><span class="inline-block px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium mb-6">👋 Selamat Datang</span>
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">Hai, Saya <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Anya Khairanisa</span></h1>
+        <h2 id="hero-title" class="text-xl sm:text-2xl text-gray-700 font-medium mb-4">Project Enabler &amp; Spokesperson</h2>
+        <p id="hero-subtitle" class="text-gray-600 text-lg mb-8 leading-relaxed max-w-xl">Ahli dalam perancangan ide, presentasi publik, dan manajemen administrasi kegiatan. Siap membantu mewujudkan visi Anda dengan kreativitas dan dedikasi.</p>
+        <div class="flex flex-wrap gap-4"><a href="#portfolio" class="btn-primary px-8 py-3.5 text-white font-semibold rounded-full shadow-lg inline-flex items-center"> <span>Lihat Portofolio</span>
+          <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg></a> <a href="#contact" class="px-8 py-3.5 bg-white text-emerald-600 font-semibold rounded-full shadow-lg border-2 border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50 transition inline-flex items-center"> <span>Hubungi Saya</span> </a>
+        </div><!-- Stats -->
+        <div class="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-emerald-100">
+         <div>
+          <p class="font-display text-3xl font-bold text-emerald-600">5+</p>
+          <p class="text-sm text-gray-500">Proyek</p>
+         </div>
+         <div>
+          <p class="font-display text-3xl font-bold text-emerald-600">3+</p>
+          <p class="text-sm text-gray-500">Tahun Pengalaman</p>
+         </div>
+         <div>
+          <p class="font-display text-3xl font-bold text-emerald-600">10+</p>
+          <p class="text-sm text-gray-500">Keahlian</p>
+         </div>
         </div>
+       </div><!-- Hero Image -->
+       <div class="fade-in stagger-2 relative flex justify-center">
+        <div class="relative"><!-- Decorative Elements -->
+         <div class="absolute -top-8 -left-8 w-24 h-24 bg-emerald-200 rounded-full opacity-50 floating"></div>
+         <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-teal-200 rounded-full opacity-50 floating" style="animation-delay: 2s;"></div>
+         <div class="absolute top-1/2 -right-12 w-16 h-16 bg-green-300 rounded-full opacity-40 floating" style="animation-delay: 4s;"></div><!-- Profile Photo -->
+         <div class="profile-ring rounded-3xl shadow-2xl"><img id="hero-photo" src="https://pin.it/7b5WT2MdZ" alt="Anya Khairanisa" class="w-72 h-80 sm:w-80 sm:h-96 object-cover rounded-3xl" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #10B981, #34D399)'; this.innerHTML='<div class=\'flex items-center justify-center h-full text-white text-6xl\'>👩</div>';">
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- About Section -->
+    <section id="about" class="py-24 px-4 sm:px-6 lg:px-8 bg-white">
+     <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-in"><span class="inline-block px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium mb-4">Tentang Saya</span>
+       <h2 class="font-display text-3xl sm:text-4xl font-bold text-gray-900">Kenali Saya Lebih Dekat</h2>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-12 items-start"><!-- Bio Card -->
+       <div class="glass-card rounded-3xl p-8 hover-lift fade-in stagger-1">
+        <div class="flex items-center space-x-4 mb-6">
+         <div class="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center text-white text-2xl">
+          👤
+         </div>
+         <div>
+          <h3 class="font-display text-xl font-bold text-gray-900">Profil Diri</h3>
+          <p class="text-emerald-600 text-sm">Personal Information</p>
+         </div>
+        </div>
+        <div class="space-y-4">
+         <div class="flex items-center justify-between py-3 border-b border-gray-100"><span class="text-gray-500">Nama Lengkap</span> <span class="font-medium text-gray-800">Anya Khairanisa Putri Tandriyana</span>
+         </div>
+         <div class="flex items-center justify-between py-3 border-b border-gray-100"><span class="text-gray-500">Tanggal Lahir</span> <span class="font-medium text-gray-800">12 Agustus 2008</span>
+         </div>
+         <div class="flex items-center justify-between py-3 border-b border-gray-100"><span class="text-gray-500">Tempat Lahir</span> <span class="font-medium text-gray-800">Subang, Jawa Barat</span>
+         </div>
+         <div class="flex items-center justify-between py-3 border-b border-gray-100"><span class="text-gray-500">Jenis Kelamin</span> <span class="font-medium text-gray-800">Perempuan</span>
+         </div>
+         <div class="py-3"><span class="text-gray-500 block mb-2">Alamat</span> <span class="font-medium text-gray-800 text-sm">Jl. Mt Haryono, Gang Kartadara, RT.46/RW.12, Kec. Subang, Kab. Subang, Prov. Jawa Barat</span>
+         </div>
+        </div>
+       </div><!-- Interests & Goals -->
+       <div class="space-y-6"><!-- Hobi -->
+        <div class="glass-card rounded-3xl p-6 hover-lift fade-in stagger-2">
+         <h3 class="font-display text-lg font-bold text-gray-900 mb-4 flex items-center"><span class="mr-2">🎯</span> Hobi &amp; Minat</h3>
+         <div class="flex flex-wrap gap-3"><span class="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full text-sm font-medium">📚 Membaca</span> <span class="px-4 py-2 bg-teal-50 text-teal-700 rounded-full text-sm font-medium">🏃‍♀️ Olahraga</span> <span class="px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium">🎵 Mendengarkan Musik</span>
+         </div>
+        </div><!-- Goals -->
+        <div class="glass-card rounded-3xl p-6 hover-lift fade-in stagger-3">
+         <h3 class="font-display text-lg font-bold text-gray-900 mb-4 flex items-center"><span class="mr-2">🔬</span> Minat &amp; Tujuan</h3>
+         <p class="text-gray-600 leading-relaxed">Saya memiliki minat dalam bidang <span class="text-emerald-600 font-semibold">biomedik</span> karena keterkaitannya dengan ilmu biologi dan kesehatan manusia. Tujuan saya adalah memperdalam pengetahuan biomedik serta mempersiapkan diri untuk melanjutkan pendidikan di bidang kesehatan di masa depan.</p>
+        </div><!-- Values -->
+        <div class="glass-card rounded-3xl p-6 hover-lift fade-in stagger-4">
+         <h3 class="font-display text-lg font-bold text-gray-900 mb-4 flex items-center"><span class="mr-2">⭐</span> Keunggulan Pribadi</h3>
+         <div class="grid grid-cols-3 gap-4">
+          <div class="text-center p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl"><span class="text-3xl block mb-2">🔄</span> <span class="text-sm font-medium text-gray-700">Adaptif</span>
+          </div>
+          <div class="text-center p-4 bg-gradient-to-br from-teal-50 to-green-50 rounded-2xl"><span class="text-3xl block mb-2">🤝</span> <span class="text-sm font-medium text-gray-700">Team Work</span>
+          </div>
+          <div class="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl"><span class="text-3xl block mb-2">🎤</span> <span class="text-sm font-medium text-gray-700">Speaking</span>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Education Timeline -->
+      <div class="mt-16 fade-in stagger-5">
+       <h3 class="font-display text-2xl font-bold text-gray-900 text-center mb-12 flex items-center justify-center"><span class="mr-3">🎓</span> Riwayat Pendidikan</h3>
+       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="glass-card rounded-2xl p-6 hover-lift text-center">
+         <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-xl">🏫</span>
+         </div>
+         <p class="text-sm text-emerald-600 font-medium mb-1">2013 - 2016</p>
+         <h4 class="font-semibold text-gray-800">SDN Samratulangi</h4>
+        </div>
+        <div class="glass-card rounded-2xl p-6 hover-lift text-center">
+         <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-xl">🏫</span>
+         </div>
+         <p class="text-sm text-teal-600 font-medium mb-1">2016 - 2020</p>
+         <h4 class="font-semibold text-gray-800">SD IT Bhaskara</h4>
+        </div>
+        <div class="glass-card rounded-2xl p-6 hover-lift text-center">
+         <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-xl">📚</span>
+         </div>
+         <p class="text-sm text-green-600 font-medium mb-1">2020 - 2023</p>
+         <h4 class="font-semibold text-gray-800">SMPN 1 Subang</h4>
+        </div>
+        <div class="glass-card rounded-2xl p-6 hover-lift text-center">
+         <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-xl">🎓</span>
+         </div>
+         <p class="text-sm text-emerald-600 font-medium mb-1">2023 - 2026</p>
+         <h4 class="font-semibold text-gray-800">SMAN 1 Subang</h4>
+        </div>
+       </div>
+      </div><!-- Experience -->
+      <div class="mt-16 grid md:grid-cols-2 gap-8"><!-- Kepanitiaan -->
+       <div class="glass-card rounded-3xl p-8 hover-lift fade-in">
+        <h3 class="font-display text-xl font-bold text-gray-900 mb-6 flex items-center"><span class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center mr-3">📋</span> Pengalaman Kepanitiaan</h3>
+        <div class="space-y-4 relative pl-6 border-l-2 border-emerald-200">
+         <div class="relative timeline-item">
+          <p class="font-medium text-gray-800">Sie. Konsumsi Karang Taruna</p>
+          <p class="text-sm text-emerald-600">2023/2024</p>
+         </div>
+         <div class="relative timeline-item">
+          <p class="font-medium text-gray-800">Panitia Galuh Pakuan Cup Seri 8</p>
+          <p class="text-sm text-emerald-600">Subang 2024</p>
+         </div>
+         <div class="relative timeline-item">
+          <p class="font-medium text-gray-800">Panitia Galuh Pakuan Cup Seri 8</p>
+          <p class="text-sm text-emerald-600">Subang 2025</p>
+         </div>
+        </div>
+       </div><!-- Kepengurusan -->
+       <div class="glass-card rounded-3xl p-8 hover-lift fade-in">
+        <h3 class="font-display text-xl font-bold text-gray-900 mb-6 flex items-center"><span class="w-10 h-10 bg-teal-100 rounded-xl flex items-center justify-center mr-3">👥</span> Pengalaman Kepengurusan</h3>
+        <div class="space-y-4 relative pl-6 border-l-2 border-teal-200">
+         <div class="relative timeline-item" style="--tw-border-opacity: 1; border-color: rgb(94 234 212);">
+          <p class="font-medium text-gray-800">Sie. Kebersihan Kelas XII</p>
+          <p class="text-sm text-teal-600">2024/2025</p>
+         </div>
+         <div class="relative timeline-item">
+          <p class="font-medium text-gray-800">Pengurus Ekstrakurikuler Volly</p>
+          <p class="text-sm text-teal-600">SMAN 1 Subang 2024/2025</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Skills Section -->
+    <section id="skills" class="py-24 px-4 sm:px-6 lg:px-8">
+     <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-in"><span class="inline-block px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium mb-4">Keahlian</span>
+       <h2 class="font-display text-3xl sm:text-4xl font-bold text-gray-900">Apa yang Saya Kuasai</h2>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-12"><!-- Hard Skills -->
+       <div class="glass-card rounded-3xl p-8 hover-lift fade-in stagger-1">
+        <div class="flex items-center space-x-4 mb-8">
+         <div class="w-14 h-14 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
+          💻
+         </div>
+         <div>
+          <h3 class="font-display text-xl font-bold text-gray-900">Hard Skills</h3>
+          <p class="text-gray-500 text-sm">Kemampuan Teknis</p>
+         </div>
+        </div>
+        <div class="space-y-6">
+         <div>
+          <div class="flex justify-between mb-2"><span class="font-medium text-gray-700">HTML</span> <span class="text-emerald-600 font-semibold">75%</span>
+          </div>
+          <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+           <div class="skill-bar h-full rounded-full" style="width: 75%;"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span class="font-medium text-gray-700">Canva</span> <span class="text-emerald-600 font-semibold">90%</span>
+          </div>
+          <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+           <div class="skill-bar h-full rounded-full" style="width: 90%;"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span class="font-medium text-gray-700">Desain Grafis</span> <span class="text-emerald-600 font-semibold">85%</span>
+          </div>
+          <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+           <div class="skill-bar h-full rounded-full" style="width: 85%;"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span class="font-medium text-gray-700">Microsoft Excel</span> <span class="text-emerald-600 font-semibold">80%</span>
+          </div>
+          <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+           <div class="skill-bar h-full rounded-full" style="width: 80%;"></div>
+          </div>
+         </div>
+         <div>
+          <div class="flex justify-between mb-2"><span class="font-medium text-gray-700">Microsoft Word</span> <span class="text-emerald-600 font-semibold">90%</span>
+          </div>
+          <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+           <div class="skill-bar h-full rounded-full" style="width: 90%;"></div>
+          </div>
+         </div>
+        </div>
+       </div><!-- Soft Skills -->
+       <div class="glass-card rounded-3xl p-8 hover-lift fade-in stagger-2">
+        <div class="flex items-center space-x-4 mb-8">
+         <div class="w-14 h-14 bg-gradient-to-br from-teal-400 to-green-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
+          🧠
+         </div>
+         <div>
+          <h3 class="font-display text-xl font-bold text-gray-900">Soft Skills</h3>
+          <p class="text-gray-500 text-sm">Kemampuan Non-Teknis</p>
+         </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+         <div class="p-5 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl text-center hover:shadow-md transition"><span class="text-4xl block mb-3">💬</span>
+          <p class="font-semibold text-gray-800">Komunikasi</p>
+          <p class="text-xs text-gray-500 mt-1">Excellent</p>
+         </div>
+         <div class="p-5 bg-gradient-to-br from-teal-50 to-green-50 rounded-2xl text-center hover:shadow-md transition"><span class="text-4xl block mb-3">🤝</span>
+          <p class="font-semibold text-gray-800">Kerja Tim</p>
+          <p class="text-xs text-gray-500 mt-1">Excellent</p>
+         </div>
+         <div class="p-5 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl text-center hover:shadow-md transition"><span class="text-4xl block mb-3">🎤</span>
+          <p class="font-semibold text-gray-800">Public Speaking</p>
+          <p class="text-xs text-gray-500 mt-1">Advanced</p>
+         </div>
+         <div class="p-5 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl text-center hover:shadow-md transition"><span class="text-4xl block mb-3">📊</span>
+          <p class="font-semibold text-gray-800">Presentasi</p>
+          <p class="text-xs text-gray-500 mt-1">Advanced</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 px-4 sm:px-6 lg:px-8 bg-white">
+     <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-in"><span class="inline-block px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium mb-4">Portofolio</span>
+       <h2 class="font-display text-3xl sm:text-4xl font-bold text-gray-900">Karya &amp; Proyek Saya</h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Project 1 -->
+       <div class="portfolio-card glass-card rounded-3xl overflow-hidden hover-lift fade-in stagger-1">
+        <div class="h-48 bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center"><span class="text-6xl">📋</span>
+        </div>
+        <div class="p-6"><span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Event Management</span>
+         <h3 class="font-display text-xl font-bold text-gray-900 mt-3 mb-2">Galuh Pakuan Cup 2024</h3>
+         <p class="text-gray-600 text-sm mb-4">Dokumentasi dan koordinasi acara kompetisi olahraga tingkat regional dengan peserta dari berbagai daerah.</p>
+         <div class="flex items-center justify-between">
+          <div class="flex space-x-2"><span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Event</span> <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">2024</span>
+          </div><button class="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center"> Detail 
+           <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+           </svg></button>
+         </div>
+        </div>
+       </div><!-- Project 2 -->
+       <div class="portfolio-card glass-card rounded-3xl overflow-hidden hover-lift fade-in stagger-2">
+        <div class="h-48 bg-gradient-to-br from-teal-400 to-green-500 flex items-center justify-center"><span class="text-6xl">🎨</span>
+        </div>
+        <div class="p-6"><span class="text-xs font-medium text-teal-600 bg-teal-50 px-3 py-1 rounded-full">Desain Grafis</span>
+         <h3 class="font-display text-xl font-bold text-gray-900 mt-3 mb-2">Desain Media Sosial</h3>
+         <p class="text-gray-600 text-sm mb-4">Koleksi desain feed dan story Instagram untuk berbagai keperluan organisasi dan kegiatan sekolah.</p>
+         <div class="flex items-center justify-between">
+          <div class="flex space-x-2"><span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Canva</span> <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Design</span>
+          </div><button class="text-teal-600 hover:text-teal-700 font-medium text-sm flex items-center"> Detail 
+           <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+           </svg></button>
+         </div>
+        </div>
+       </div><!-- Project 3 -->
+       <div class="portfolio-card glass-card rounded-3xl overflow-hidden hover-lift fade-in stagger-3">
+        <div class="h-48 bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center"><span class="text-6xl">🎤</span>
+        </div>
+        <div class="p-6"><span class="text-xs font-medium text-green-600 bg-green-50 px-3 py-1 rounded-full">Presentasi</span>
+         <h3 class="font-display text-xl font-bold text-gray-900 mt-3 mb-2">Presentasi Kelas</h3>
+         <p class="text-gray-600 text-sm mb-4">Berbagai presentasi akademik dengan materi yang terstruktur dan penyampaian yang menarik.</p>
+         <div class="flex items-center justify-between">
+          <div class="flex space-x-2"><span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">PPT</span> <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Speaking</span>
+          </div><button class="text-green-600 hover:text-green-700 font-medium text-sm flex items-center"> Detail 
+           <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+           </svg></button>
+         </div>
+        </div>
+       </div><!-- Project 4 -->
+       <div class="portfolio-card glass-card rounded-3xl overflow-hidden hover-lift fade-in stagger-4">
+        <div class="h-48 bg-gradient-to-br from-emerald-500 to-teal-400 flex items-center justify-center"><span class="text-6xl">📊</span>
+        </div>
+        <div class="p-6"><span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Administrasi</span>
+         <h3 class="font-display text-xl font-bold text-gray-900 mt-3 mb-2">Laporan Kegiatan</h3>
+         <p class="text-gray-600 text-sm mb-4">Penyusunan laporan kegiatan dan dokumentasi administratif untuk berbagai acara organisasi.</p>
+         <div class="flex items-center justify-between">
+          <div class="flex space-x-2"><span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Excel</span> <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Word</span>
+          </div><button class="text-emerald-600 hover:text-emerald-700 font-medium text-sm flex items-center"> Detail 
+           <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+           </svg></button>
+         </div>
+        </div>
+       </div><!-- Project 5 -->
+       <div class="portfolio-card glass-card rounded-3xl overflow-hidden hover-lift fade-in stagger-5">
+        <div class="h-48 bg-gradient-to-br from-teal-500 to-green-400 flex items-center justify-center"><span class="text-6xl">🏐</span>
+        </div>
+        <div class="p-6"><span class="text-xs font-medium text-teal-600 bg-teal-50 px-3 py-1 rounded-full">Organisasi</span>
+         <h3 class="font-display text-xl font-bold text-gray-900 mt-3 mb-2">Ekstrakurikuler Volly</h3>
+         <p class="text-gray-600 text-sm mb-4">Manajemen dan koordinasi kegiatan ekstrakurikuler voli SMAN 1 Subang periode 2024/2025.</p>
+         <div class="flex items-center justify-between">
+          <div class="flex space-x-2"><span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Team</span> <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Leadership</span>
+          </div><button class="text-teal-600 hover:text-teal-700 font-medium text-sm flex items-center"> Detail 
+           <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+           </svg></button>
+         </div>
+        </div>
+       </div><!-- Add More Card -->
+       <div class="glass-card rounded-3xl overflow-hidden hover-lift fade-in border-2 border-dashed border-emerald-200 flex items-center justify-center min-h-[320px]">
+        <div class="text-center p-6">
+         <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-3xl">✨</span>
+         </div>
+         <p class="text-gray-500 font-medium">Lebih banyak proyek</p>
+         <p class="text-sm text-gray-400">akan datang...</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Contact Section -->
+    <section id="contact" class="py-24 px-4 sm:px-6 lg:px-8">
+     <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 fade-in"><span class="inline-block px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium mb-4">Kontak</span>
+       <h2 class="font-display text-3xl sm:text-4xl font-bold text-gray-900">Hubungi Saya</h2>
+       <p class="text-gray-600 mt-4 max-w-xl mx-auto">Tertarik untuk berkolaborasi atau ingin bertanya? Jangan ragu untuk menghubungi saya.</p>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-12"><!-- Contact Info -->
+       <div class="space-y-6 fade-in stagger-1">
+        <div class="glass-card rounded-3xl p-6 hover-lift flex items-center space-x-4">
+         <div class="w-14 h-14 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg flex-shrink-0">
+          📧
+         </div>
+         <div>
+          <p class="text-sm text-gray-500">Email</p><a href="mailto:anyakhairanisa3@gmail.com" id="contact-email-display" class="font-semibold text-gray-800 hover:text-emerald-600 transition">anyakhairanisa3@gmail.com</a>
+         </div>
+        </div>
+        <div class="glass-card rounded-3xl p-6 hover-lift flex items-center space-x-4">
+         <div class="w-14 h-14 bg-gradient-to-br from-teal-400 to-green-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg flex-shrink-0">
+          📱
+         </div>
+         <div>
+          <p class="text-sm text-gray-500">WhatsApp</p><a href="https://wa.me/6282118481085" target="_blank" rel="noopener noreferrer" id="contact-phone-display" class="font-semibold text-gray-800 hover:text-teal-600 transition">0821-1848-1085</a>
+         </div>
+        </div>
+        <div class="glass-card rounded-3xl p-6 hover-lift flex items-center space-x-4">
+         <div class="w-14 h-14 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg flex-shrink-0">
+          📍
+         </div>
+         <div>
+          <p class="text-sm text-gray-500">Lokasi</p>
+          <p class="font-semibold text-gray-800">Subang, Jawa Barat</p>
+         </div>
+        </div><!-- Social Media -->
+        <div class="glass-card rounded-3xl p-6 hover-lift">
+         <p class="text-sm text-gray-500 mb-4">Media Sosial</p>
+         <div class="flex space-x-4"><a href="https://www.instagram.com/akhairaan/" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-500 rounded-xl flex items-center justify-center text-white hover:scale-110 transition shadow-lg">
+           <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+           </svg></a> <a href="https://www.tiktok.com/@akhaira.n" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl flex items-center justify-center text-white hover:scale-110 transition shadow-lg">
+           <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+           </svg></a> <a href="#" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl flex items-center justify-center text-white hover:scale-110 transition shadow-lg">
+           <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+           </svg></a>
+         </div>
+        </div>
+       </div><!-- Contact Form -->
+       <div class="glass-card rounded-3xl p-8 hover-lift fade-in stagger-2">
+        <h3 class="font-display text-xl font-bold text-gray-900 mb-6">Kirim Pesan</h3>
+        <form id="contact-form" class="space-y-5">
+         <div><label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label> <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition" placeholder="Masukkan nama Anda">
+         </div>
+         <div><label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label> <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition" placeholder="nama@email.com">
+         </div>
+         <div><label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subjek</label> <input type="text" id="subject" name="subject" required class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition" placeholder="Topik pesan">
+         </div>
+         <div><label for="message" class="block text-sm font-medium text-gray-700 mb-2">Pesan</label> <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition resize-none" placeholder="Tulis pesan Anda di sini..."></textarea>
+         </div><button type="submit" class="w-full btn-primary py-4 text-white font-semibold rounded-xl shadow-lg flex items-center justify-center"> <span>Kirim Pesan</span>
+          <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+          </svg></button>
+        </form>
+        <div id="form-message" class="mt-4 hidden"></div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Photo URL Input Section -->
+    <section class="py-12 px-4 sm:px-6 lg:px-8 bg-white">
+     <div class="max-w-xl mx-auto">
+      <div class="glass-card rounded-3xl p-8 hover-lift fade-in">
+       <h3 class="font-display text-xl font-bold text-gray-900 mb-4 flex items-center"><span class="mr-2">📸</span> Update Foto Profil</h3>
+       <p class="text-gray-600 text-sm mb-6">Masukkan URL gambar untuk mengubah foto profil di website.</p>
+       <div class="space-y-4"><input type="url" id="photo-url-input" placeholder="https://example.com/foto-anda.jpg" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"> <button onclick="updateProfilePhoto()" class="w-full btn-primary py-3 text-white font-semibold rounded-xl shadow-lg"> Update Foto </button>
+        <p id="photo-status" class="text-sm text-center text-gray-500"></p>
+       </div>
+      </div>
+     </div>
     </section>
-
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-
-        <!-- 3.g: Artikel / Blog Wisata (Bagian Sidebar/Konten Samping) -->
-        <div class="lg:flex lg:space-x-12">
-            <div class="lg:w-3/4">
-
-                <!-- 3.a: Deskripsi Destinasi Utama -->
-                <section id="destinasi" class="mb-20 animate-on-scroll">
-                    <h2 class="section-title">Destinasi Unggulan</h2>
-                    <p class="mb-10 max-w-3xl text-lg dark:text-gray-300">Northern Italy adalah perpaduan sempurna antara kemegahan alam dan warisan budaya. Jelajahi ikon-ikon utama kami.</p>
-
-                    <!-- Kartu Destinasi (3.a, 3.n) -->
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="bg-bg-light dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                            <img src="https://placehold.co/600x400/003366/FFFFFF?text=Dolomiti" alt="Dolomiti" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold mb-2 text-primary dark:text-accent">Dolomiti</h3>
-                            <p class="text-sm dark:text-gray-400 mb-4">Puncak-puncak batu kapur yang menakjubkan, sempurna untuk hiking dan ski. Keindahan alami yang tak tertandingi.</p>
-                            <a href="#" class="text-accent hover:text-primary dark:hover:text-bg-light transition-colors duration-300 font-medium text-sm inline-flex items-center">
-                                Detail & Tiket
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </a>
-                            <div class="mt-4 flex space-x-2">
-                                <span class="share-icon">FB</span>
-                                <span class="share-icon">IG</span>
-                            </div>
-                        </div>
-                        <div class="bg-bg-light dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                            <img src="https://placehold.co/600x400/B8860B/003366?text=Milan" alt="Milan" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold mb-2 text-primary dark:text-accent">Milan</h3>
-                            <p class="text-sm dark:text-gray-400 mb-4">Pusat mode dan desain Italia. Jelajahi Duomo yang megah dan galeri seni kelas dunia.</p>
-                            <a href="#" class="text-accent hover:text-primary dark:hover:text-bg-light transition-colors duration-300 font-medium text-sm inline-flex items-center">
-                                Detail & Tiket
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </a>
-                            <div class="mt-4 flex space-x-2">
-                                <span class="share-icon">FB</span>
-                                <span class="share-icon">IG</span>
-                            </div>
-                        </div>
-                        <div class="bg-bg-light dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                            <img src="https://placehold.co/600x400/003366/FFFFFF?text=Venice" alt="Venice" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold mb-2 text-primary dark:text-accent">Venesia</h3>
-                            <p class="text-sm dark:text-gray-400 mb-4">Kota kanal romantis yang unik. Nikmati gondola dan sejarah yang tak terhitung.</p>
-                            <a href="#" class="text-accent hover:text-primary dark:hover:text-bg-light transition-colors duration-300 font-medium text-sm inline-flex items-center">
-                                Detail & Tiket
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                            </a>
-                            <div class="mt-4 flex space-x-2">
-                                <span class="share-icon">FB</span>
-                                <span class="share-icon">IG</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 3.j: Filter Destinasi Berdasarkan Kategori -->
-                    <div class="mt-12">
-                        <h4 class="text-lg font-medium mb-3 dark:text-gray-200">Filter Berdasarkan Kategori:</h4>
-                        <div class="flex flex-wrap gap-3">
-                            <button class="filter-btn">Pegunungan</button>
-                            <button class="filter-btn">Kota</button>
-                            <button class="filter-btn">Danau & Air</button>
-                            <button class="filter-btn">Sejarah & Seni</button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 3.b & 3.i: Galeri Foto / Video & Virtual Tour -->
-                <section id="galeri" class="mb-20 animate-on-scroll">
-                    <h2 class="section-title">Galeri Keindahan Northern Italia</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <img src="https://placehold.co/300x300/333333/FFFFFF?text=Foto+1" class="gallery-img" alt="Foto Italia Utara 1">
-                        <img src="https://placehold.co/300x300/B8860B/FFFFFF?text=Foto+2" class="gallery-img" alt="Foto Italia Utara 2">
-                        <img src="https://placehold.co/300x300/003366/FFFFFF?text=Foto+3" class="gallery-img" alt="Foto Italia Utara 3">
-                        <img src="https://placehold.co/300x300/1C1C1C/FFFFFF?text=Foto+4" class="gallery-img" alt="Foto Italia Utara 4">
-                    </div>
-                    <div class="text-center mt-8">
-                        <button class="btn-secondary" onclick="openVirtualTour()">
-                            Tonton Virtual Tour (360°)
-                        </button>
-                    </div>
-                </section>
-
-                <!-- 3.c, 3.d, 3.h: Tiket, Jadwal, Fasilitas & Reservasi -->
-                <section id="reservasi" class="mb-20 bg-primary/5 dark:bg-gray-800 p-8 rounded-xl shadow-lg animate-on-scroll">
-                    <h2 class="section-title text-primary dark:text-accent">Pemesanan & Layanan</h2>
-                    <div class="lg:flex lg:space-x-8">
-                        <!-- Informasi Tiket & Fasilitas (3.c, 3.d) -->
-                        <div class="lg:w-1/2 mb-8 lg:mb-0">
-                            <h3 class="text-2xl font-semibold mb-4 dark:text-gray-100">Jadwal & Fasilitas Kunjungan</h3>
-                            <p class="mb-4">Jam Buka: 09:00 - 18:00 (Setiap Hari)</p>
-                            <ul class="list-disc list-inside space-y-2 dark:text-gray-300">
-                                <li>Tiket Dewasa Mulai dari €25</li>
-                                <li>Gratis Parkir Premium</li>
-                                <li>Akses Wi-Fi Kecepatan Tinggi</li>
-                                <li>Pemandu Wisata Multibahasa</li>
-                                <li>Area Istirahat Eksklusif</li>
-                            </ul>
-                            <!-- 3.l: Cuaca & Kondisi Terkini Widget Placeholder -->
-                            <div class="mt-6 p-4 bg-accent/10 dark:bg-accent/20 rounded-lg text-sm">
-                                <p class="font-medium text-accent">Cuaca Terkini: <span id="current-weather">21°C, Cerah.</span></p>
-                                <p class="text-xs dark:text-gray-400">Kondisi: Normal. Tidak ada penundaan jadwal.</p>
-                            </div>
-                        </div>
-
-                        <!-- Form Pemesanan / Reservasi (3.h) -->
-                        <div class="lg:w-1/2">
-                            <h3 class="text-2xl font-semibold mb-4 dark:text-gray-100">Formulir Reservasi</h3>
-                            <form id="reservation-form" class="space-y-4">
-                                <input type="text" placeholder="Nama Lengkap" required class="form-input">
-                                <input type="email" placeholder="Email Aktif" required class="form-input">
-                                <input type="number" placeholder="Jumlah Pengunjung" required class="form-input">
-                                <input type="date" required class="form-input">
-                                <textarea placeholder="Pesan Khusus (Opsional)" class="form-input h-24"></textarea>
-                                <button type="submit" class="btn-primary w-full">Konfirmasi Reservasi</button>
-                            </form>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 3.e: Event & Kegiatan Lokal -->
-                <section id="events" class="mb-20 animate-on-scroll">
-                    <h2 class="section-title">Event & Kegiatan Lokal</h2>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="p-6 border border-gray-200 dark:border-gray-700 rounded-xl">
-                            <h3 class="text-xl font-semibold mb-2 dark:text-accent">Festival Anggur Veneto</h3>
-                            <p class="text-sm dark:text-gray-400 mb-2">Tanggal: 15-20 Oktober 2026</p>
-                            <p class="dark:text-gray-300">Nikmati koleksi anggur terbaik dari kawasan Veneto. Acara wajib bagi pecinta kuliner dan wine.</p>
-                        </div>
-                        <div class="p-6 border border-gray-200 dark:border-gray-700 rounded-xl">
-                            <h3 class="text-xl font-semibold mb-2 dark:text-accent">Pameran Desain Milan</h3>
-                            <p class="text-sm dark:text-gray-400 mb-2">Tanggal: 5-10 April 2026</p>
-                            <p class="dark:text-gray-300">Inovasi terbaru dalam mode, arsitektur, dan desain di ibukota mode dunia.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 2.g: Counter / Statistik (Bagian Tengah) -->
-                <section id="stats" class="mb-20 text-center py-16 bg-primary dark:bg-gray-900 rounded-xl animate-on-scroll">
-                    <h2 class="text-3xl font-bold mb-10 text-bg-light">Northern Italy dalam Angka</h2>
-                    <div class="grid grid-cols-3 gap-4 text-bg-light">
-                        <div>
-                            <p class="text-4xl font-extrabold text-accent" id="stat-1">0</p>
-                            <p class="mt-2 text-sm uppercase tracking-wider">Destinasi Populer</p>
-                        </div>
-                        <div>
-                            <p class="text-4xl font-extrabold text-accent" id="stat-2">0</p>
-                            <p class="mt-2 text-sm uppercase tracking-wider">Pengunjung Puas</p>
-                        </div>
-                        <div>
-                            <p class="text-4xl font-extrabold text-accent" id="stat-3">0</p>
-                            <p class="mt-2 text-sm uppercase tracking-wider">Tahun Beroperasi</p>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- 2.h: Map Integration Placeholder -->
-                <section id="map" class="mb-20 animate-on-scroll">
-                    <h2 class="section-title">Lokasi Kami</h2>
-                    <div class="h-96 w-full rounded-xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-700">
-                        <!-- Placeholder Iframe untuk Google Maps -->
-                        <iframe src="https://maps.google.com/maps?q=Milan,Italy&z=10&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                    <p class="mt-4 text-sm dark:text-gray-400 text-center">Jelajahi destinasi kami secara visual di peta interaktif.</p>
-                </section>
-
-                <!-- 1.f & 3.q: Contact Form & Form Saran -->
-                <section id="kontak" class="mb-20 animate-on-scroll">
-                    <h2 class="section-title">Hubungi Kami / Beri Penilaian</h2>
-                    <div class="max-w-3xl mx-auto bg-primary/5 dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-                        <form id="contact-form" class="space-y-4">
-                            <p class="text-lg font-medium mb-4">Tim kami siap membantu perjalanan Anda.</p>
-                            <input type="text" placeholder="Nama Anda" required class="form-input">
-                            <input type="email" placeholder="Email Anda" required class="form-input">
-                            <!-- 3.q: Penilaian/Saran -->
-                            <div class="space-y-2">
-                                <label class="block dark:text-gray-300">Beri Penilaian (1-5 Bintang):</label>
-                                <select class="form-input" required>
-                                    <option>5 Bintang (Sangat Puas)</option>
-                                    <option>4 Bintang (Puas)</option>
-                                    <option>3 Bintang (Cukup)</option>
-                                    <option>2 Bintang (Kurang)</option>
-                                    <option>1 Bintang (Buruk)</option>
-                                </select>
-                            </div>
-                            <textarea placeholder="Saran / Pertanyaan Anda" required class="form-input h-32"></textarea>
-                            <button type="submit" class="btn-primary w-full">Kirim Pesan & Penilaian</button>
-                        </form>
-                    </div>
-                </section>
-
-            </div>
-
-            <!-- 1.d: Sidebar (Tampilan Desktop) -->
-            <div class="lg:w-1/4 mt-12 lg:mt-0">
-                <aside class="space-y-10">
-                    <!-- 3.g: Blog/Artikel Wisata Mini -->
-                    <div id="blog" class="p-6 bg-bg-light dark:bg-gray-800 rounded-xl shadow-md border-t-4 border-accent">
-                        <h3 class="text-xl font-semibold mb-4 text-primary dark:text-accent">Artikel Terbaru</h3>
-                        <ul class="space-y-4">
-                            <li><a href="#" class="sidebar-article-link">5 Danau Tersembunyi di Lombardia</a></li>
-                            <li><a href="#" class="sidebar-article-link">Panduan Kuliner Verona</a></li>
-                            <li><a href="#" class="sidebar-article-link">Sejarah Singkat Dolomiti</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- 3.f & 3.k: Ulasan & Testimoni Pengunjung Otomatis (Carousel Simulation) -->
-                    <div class="p-6 bg-primary dark:bg-gray-900 rounded-xl shadow-md">
-                        <h3 class="text-xl font-semibold mb-4 text-bg-light">Testimoni Terbaik</h3>
-                        <div id="testimonial-carousel" class="relative overflow-hidden h-32">
-                            <!-- Testimoni akan dimasukkan oleh JS -->
-                            <p class="text-text-light italic" id="carousel-text">"Pemandangannya sungguh menakjubkan dan layanan yang diberikan sangat profesional."</p>
-                            <p class="text-accent mt-2 text-right font-medium" id="carousel-author">- Budi S. (Indonesia)</p>
-                        </div>
-                    </div>
-
-                    <!-- Tombol Cepat -->
-                    <div class="space-y-3">
-                        <button class="btn-sidebar-quick-link w-full">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l-2 2m-2-2v10a1 1 0 01-1 1h-3"></path></svg>
-                            Cek Jadwal
-                        </button>
-                        <button class="btn-sidebar-quick-link w-full">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Fasilitas
-                        </button>
-                    </div>
-
-                </aside>
-            </div>
+   </main><!-- Footer -->
+   <footer class="bg-gray-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+     <div class="grid md:grid-cols-3 gap-12 mb-12"><!-- Brand -->
+      <div>
+       <div class="flex items-center space-x-3 mb-4">
+        <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center text-2xl">
+         👩‍💻
         </div>
-
-    </main>
-
-    <!-- 1.c: Footer (Bagian Bawah Website) -->
-    <footer class="bg-primary dark:bg-black text-bg-light py-12">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h4 class="text-lg font-semibold mb-4 text-accent">Northern Italia</h4>
-                    <p class="text-sm">Eksplorasi destinasi premium dengan layanan terbaik.</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Navigasi</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#destinasi" class="footer-link">Destinasi</a></li>
-                        <li><a href="#reservasi" class="footer-link">Pemesanan</a></li>
-                        <li><a href="#kontak" class="footer-link">Kontak</a></li>
-                        <li><a href="#" class="footer-link">Kebijakan Privasi</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Media Sosial</h4>
-                    <div class="flex space-x-3">
-                        <span class="social-icon">F</span>
-                        <span class="social-icon">I</span>
-                        <span class="social-icon">X</span>
-                        <span class="social-icon">Y</span>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Kontak Cepat</h4>
-                    <p class="text-sm">Email: info@northernitalia.com</p>
-                    <p class="text-sm">Telp: +39 012 345 6789</p>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 pt-6 text-center text-sm">
-                &copy; 2024 Northern Italia. All Rights Reserved. Desain oleh Ahli Pemrograman.
-            </div>
+        <div>
+         <h3 class="font-display text-xl font-bold">Anya Khairanisa</h3>
+         <p class="text-emerald-400 text-sm">Project Enabler &amp; Spokesperson</p>
         </div>
-    </footer>
-
-    <!-- 2.c & 3.o: Chatbot / Live Chat Floating Button -->
-    <button id="chat-toggle" class="fixed bottom-6 right-6 p-4 rounded-full bg-accent text-bg-light shadow-xl hover:bg-yellow-700 transition duration-300 z-50">
-        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    </button>
-
-    <!-- Chatbot Modal -->
-    <div id="chat-modal" class="fixed bottom-20 right-6 w-80 h-96 bg-bg-light dark:bg-gray-800 rounded-xl shadow-2xl z-50 hidden flex-col overflow-hidden">
-        <div class="bg-primary text-bg-light p-4 flex justify-between items-center rounded-t-xl">
-            <h5 class="font-semibold">Panduan Wisata AI</h5>
-            <button id="close-chat" class="text-bg-light hover:text-accent">&times;</button>
-        </div>
-        <div id="chat-body" class="flex-grow p-4 overflow-y-auto space-y-3">
-            <div class="chat-message bot">Halo! Saya GuideAI. Ada yang bisa saya bantu tentang Northern Italy?</div>
-        </div>
-        <div class="p-4 border-t border-gray-200 dark:border-gray-700 flex">
-            <input type="text" id="chat-input" placeholder="Tanyakan sesuatu..." class="flex-grow py-2 px-3 border border-gray-300 dark:border-gray-700 rounded-l-lg text-sm dark:bg-bg-dark focus:outline-none">
-            <button id="chat-send" class="bg-accent text-bg-light p-2 rounded-r-lg hover:bg-yellow-700 transition duration-300">Kirim</button>
-        </div>
+       </div>
+       <p class="text-gray-400 text-sm leading-relaxed">Siap membantu mewujudkan visi Anda dengan kreativitas dan dedikasi tinggi.</p>
+      </div><!-- Quick Links -->
+      <div>
+       <h4 class="font-semibold text-lg mb-4">Navigasi</h4>
+       <div class="space-y-3"><a href="#home" class="block text-gray-400 hover:text-emerald-400 transition">Beranda</a> <a href="#about" class="block text-gray-400 hover:text-emerald-400 transition">Tentang</a> <a href="#skills" class="block text-gray-400 hover:text-emerald-400 transition">Keahlian</a> <a href="#portfolio" class="block text-gray-400 hover:text-emerald-400 transition">Portofolio</a> <a href="#contact" class="block text-gray-400 hover:text-emerald-400 transition">Kontak</a>
+       </div>
+      </div><!-- Contact -->
+      <div>
+       <h4 class="font-semibold text-lg mb-4">Hubungi Saya</h4>
+       <div class="space-y-3 text-gray-400 text-sm">
+        <p>📧 anyakhairanisa3@gmail.com</p>
+        <p>📱 0821-1848-1085</p>
+        <p>📍 Subang, Jawa Barat</p>
+       </div>
+       <div class="flex space-x-3 mt-6"><a href="https://www.instagram.com/akhairaan/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition">
+         <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+         </svg></a> <a href="https://www.tiktok.com/@akhaira.n" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition">
+         <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+         </svg></a> <a href="#" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-800 hover:bg-emerald-600 rounded-lg flex items-center justify-center transition">
+         <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+         </svg></a>
+       </div>
+      </div>
+     </div>
+     <div class="section-divider mb-8"></div>
+     <div class="flex flex-col md:flex-row items-center justify-between text-gray-400 text-sm">
+      <p>©️ <span id="current-year"></span> Anya Khairanisa Putri Tandriyana. All rights reserved.</p>
+      <p class="mt-2 md:mt-0">Crafted with 💚 in Subang, Indonesia</p>
+     </div>
     </div>
+   </footer>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      site_name: 'Anya Khairanisa',
+      tagline: 'Crafting your success.',
+      hero_title: 'Project Enabler & Spokesperson',
+      hero_subtitle: 'Ahli dalam perancangan ide, presentasi publik, dan manajemen administrasi kegiatan. Siap membantu mewujudkan visi Anda dengan kreativitas dan dedikasi.',
+      contact_email: 'anyakhairanisa3@gmail.com',
+      contact_phone: '0821-1848-1085',
+      background_color: '#F0FDF4',
+      surface_color: '#FFFFFF',
+      text_color: '#1F2937',
+      primary_action_color: '#10B981',
+      secondary_action_color: '#059669'
+    };
 
-
-    <!-- JavaScript untuk Fungsionalitas Modern -->
-    <script>
-        // Variabel global untuk status bahasa
-        let currentLang = 'ID';
-
-        // --- 2.a: Dark / Light Mode Toggle Logic ---
-        const toggleDarkMode = () => {
-            const body = document.body;
-            const isDark = body.classList.toggle('dark');
-            body.classList.toggle('light', !isDark);
-            
-            // Simpan preferensi pengguna di localStorage
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            
-            // Update ikon
-            document.getElementById('sun-icon').classList.toggle('hidden', isDark);
-            document.getElementById('moon-icon').classList.toggle('hidden', !isDark);
-        };
-
-        // Muat preferensi saat startup
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-                document.body.classList.add('dark');
-                document.body.classList.remove('light');
-                document.getElementById('sun-icon').classList.remove('hidden');
-                document.getElementById('moon-icon').classList.add('hidden');
-            } else {
-                document.body.classList.add('light');
-                document.body.classList.remove('dark');
-                document.getElementById('sun-icon').classList.add('hidden');
-                document.getElementById('moon-icon').classList.remove('hidden');
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          // Update site name
+          const siteNameEl = document.getElementById('site-name');
+          if (siteNameEl) siteNameEl.textContent = config.site_name || defaultConfig.site_name;
+          
+          // Update tagline
+          const taglineEl = document.getElementById('site-tagline');
+          if (taglineEl) taglineEl.textContent = config.tagline || defaultConfig.tagline;
+          
+          // Update hero title
+          const heroTitleEl = document.getElementById('hero-title');
+          if (heroTitleEl) heroTitleEl.textContent = config.hero_title || defaultConfig.hero_title;
+          
+          // Update hero subtitle
+          const heroSubtitleEl = document.getElementById('hero-subtitle');
+          if (heroSubtitleEl) heroSubtitleEl.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+          
+          // Update contact email display
+          const emailDisplayEl = document.getElementById('contact-email-display');
+          if (emailDisplayEl) {
+            const email = config.contact_email || defaultConfig.contact_email;
+            emailDisplayEl.textContent = email;
+            emailDisplayEl.href = `mailto:${email}`;
+          }
+          
+          // Update contact phone display
+          const phoneDisplayEl = document.getElementById('contact-phone-display');
+          if (phoneDisplayEl) {
+            const phone = config.contact_phone || defaultConfig.contact_phone;
+            phoneDisplayEl.textContent = phone;
+          }
+          
+          // Update colors
+          const bgColor = config.background_color || defaultConfig.background_color;
+          const surfaceColor = config.surface_color || defaultConfig.surface_color;
+          const textColor = config.text_color || defaultConfig.text_color;
+          const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+          const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+          
+          document.documentElement.style.setProperty('--primary', primaryColor);
+          document.documentElement.style.setProperty('--primary-dark', secondaryColor);
+          
+          // Update button colors
+          document.querySelectorAll('.btn-primary').forEach(btn => {
+            btn.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+          });
+          
+          // Update skill bars
+          document.querySelectorAll('.skill-bar').forEach(bar => {
+            bar.style.background = `linear-gradient(90deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+          });
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                config.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => {
+                config.primary_action_color = value;
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => {
+                config.secondary_action_color = value;
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
             }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['site_name', config.site_name || defaultConfig.site_name],
+          ['tagline', config.tagline || defaultConfig.tagline],
+          ['hero_title', config.hero_title || defaultConfig.hero_title],
+          ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+          ['contact_email', config.contact_email || defaultConfig.contact_email],
+          ['contact_phone', config.contact_phone || defaultConfig.contact_phone]
+        ])
+      });
+    }
 
-            document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
-            initializeInteractions();
-            animateCounters();
-            setupScrollAnimation();
-            startTestimonialCarousel();
-        });
+    // Set current year
+    document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // --- 1.d: Sidebar / Menu Mobile Logic ---
-        const initializeInteractions = () => {
-            const menuToggle = document.getElementById('menu-toggle');
-            const closeMenu = document.getElementById('close-menu');
-            const sidebar = document.getElementById('sidebar-menu');
+    // Sidebar toggle
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebar.classList.toggle('sidebar-open');
+      overlay.classList.toggle('hidden');
+    }
 
-            menuToggle.addEventListener('click', () => sidebar.classList.add('active'));
-            closeMenu.addEventListener('click', () => sidebar.classList.remove('active'));
+    // Search functionality
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase();
+      const sections = ['home', 'about', 'skills', 'portfolio', 'contact'];
+      
+      sections.forEach(section => {
+        const el = document.getElementById(section);
+        if (el) {
+          const text = el.textContent.toLowerCase();
+          if (query && text.includes(query)) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
 
-            // Tutup sidebar saat link diklik (untuk navigasi)
-            document.querySelectorAll('.sidebar-link').forEach(link => {
-                link.addEventListener('click', () => sidebar.classList.remove('active'));
-            });
-        };
+    // Contact form handling
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value;
+      
+      const formMessage = document.getElementById('form-message');
+      formMessage.innerHTML = `
+        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+          <div class="flex items-center text-emerald-700">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span class="font-medium">Terima kasih, ${name}!</span>
+          </div>
+          <p class="text-sm text-emerald-600 mt-1">Pesan Anda telah terkirim. Saya akan segera menghubungi Anda.</p>
+        </div>
+      `;
+      formMessage.classList.remove('hidden');
+      
+      // Reset form
+      this.reset();
+      
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        formMessage.classList.add('hidden');
+      }, 5000);
+    });
+
+    // Profile photo update function
+    function updateProfilePhoto() {
+      const urlInput = document.getElementById('photo-url-input');
+      const photoStatus = document.getElementById('photo-status');
+      const url = urlInput.value.trim();
+      
+      if (!url) {
+        photoStatus.textContent = '⚠️ Silakan masukkan URL gambar';
+        photoStatus.className = 'text-sm text-center text-amber-600';
+        return;
+      }
+      
+      // Test if the URL is valid by creating an image element
+      const testImg = new Image();
+      testImg.onload = function() {
+        // Update all profile photos
+        document.getElementById('header-photo').src = url;
+        document.getElementById('hero-photo').src = url;
         
-        // --- 2.d: Language Switcher Logic (Simulasi) ---
-        document.getElementById('lang-switcher').addEventListener('click', () => {
-            currentLang = currentLang === 'ID' ? 'EN' : 'ID';
-            document.getElementById('lang-switcher').textContent = currentLang === 'ID' ? 'ID/EN' : 'EN/ID';
-            const message = currentLang === 'ID' 
-                ? 'Bahasa diubah ke Indonesia. (Konten simulasi)' 
-                : 'Language switched to English. (Simulated content)';
-            showMessageBox(message);
-        });
-        
-        // --- Custom Modal/Message Box (Pengganti alert()) ---
-        const showMessageBox = (message) => {
-            console.log("Pesan Sistem: " + message);
-            // Dalam implementasi nyata, ini akan menampilkan modal/toast di UI.
-            // Untuk prototipe ini, kita gunakan console log dan placeholder.
-            alert(message); // Menggunakan alert sementara untuk demonstrasi fitur
-        };
+        photoStatus.textContent = '�� Foto berhasil diperbarui!';
+        photoStatus.className = 'text-sm text-center text-emerald-600';
+        urlInput.value = '';
+      };
+      
+      testImg.onerror = function() {
+        photoStatus.textContent = '❌ URL gambar tidak valid atau tidak dapat diakses';
+        photoStatus.className = 'text-sm text-center text-red-600';
+      };
+      
+      testImg.src = url;
+    }
 
-        // --- 2.g: Counter / Statistik Animation ---
-        const animateCounter = (elementId, target) => {
-            const element = document.getElementById(elementId);
-            let count = 0;
-            const duration = 1500; // 1.5 detik
-            const step = target / (duration / 10); // Hitung langkah per 10ms
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
 
-            const timer = setInterval(() => {
-                count += step;
-                if (count >= target) {
-                    clearInterval(timer);
-                    count = target;
-                }
-                element.textContent = Math.floor(count).toLocaleString('id-ID');
-            }, 10);
-        };
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
 
-        const animateCounters = () => {
-            animateCounter('stat-1', 45); // Destinasi Populer
-            animateCounter('stat-2', 12500); // Pengunjung Puas
-            animateCounter('stat-3', 15); // Tahun Beroperasi
-        };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
 
-        // --- 3.k: Testimonial Carousel Simulation ---
-        const testimonials = [
-            { text: "Pemandangannya sungguh menakjubkan dan layanan yang diberikan sangat profesional.", author: "- Budi S. (Indonesia)" },
-            { text: "A truly unforgettable experience. The Dolomites were breathtaking.", author: "- Jane D. (USA)" },
-            { text: "Il Duomo di Milano è magnifico! Torneremo presto.", author: "- Giovanni R. (Italia)" }
-        ];
-
-        let currentTestimonial = 0;
-        const startTestimonialCarousel = () => {
-            const textElement = document.getElementById('carousel-text');
-            const authorElement = document.getElementById('carousel-author');
-
-            setInterval(() => {
-                currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-                const t = testimonials[currentTestimonial];
-
-                // Animasi fade out
-                textElement.style.opacity = '0';
-                authorElement.style.opacity = '0';
-
-                setTimeout(() => {
-                    textElement.textContent = t.text;
-                    authorElement.textContent = t.author;
-                    // Animasi fade in
-                    textElement.style.opacity = '1';
-                    authorElement.style.opacity = '1';
-                }, 500); // Tunggu setengah detik untuk fade out
-            }, 5000); // Ganti setiap 5 detik
-        };
-
-        // --- 2.b: Scroll Animation / Parallax Simulation (Intersection Observer) ---
-        const setupScrollAnimation = () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-slide-up');
-                        entry.target.style.opacity = '1';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                rootMargin: '0px',
-                threshold: 0.1
-            });
-
-            document.querySelectorAll('.animate-on-scroll').forEach(element => {
-                element.style.opacity = '0'; // Sembunyikan secara default
-                observer.observe(element);
-            });
-        };
-
-        // --- 2.c & 3.o: Chatbot / Live Chat Logic ---
-        const chatToggle = document.getElementById('chat-toggle');
-        const chatModal = document.getElementById('chat-modal');
-        const closeChat = document.getElementById('close-chat');
-        const chatBody = document.getElementById('chat-body');
-        const chatInput = document.getElementById('chat-input');
-        const chatSend = document.getElementById('chat-send');
-
-        chatToggle.addEventListener('click', () => chatModal.classList.toggle('hidden'));
-        closeChat.addEventListener('click', () => chatModal.classList.add('hidden'));
-        chatSend.addEventListener('click', () => handleChat());
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleChat();
-        });
-
-        const handleChat = () => {
-            const message = chatInput.value.trim();
-            if (message === '') return;
-
-            // Tampilkan pesan pengguna
-            appendMessage(message, 'user');
-            chatInput.value = '';
-
-            // Simulasi balasan Chatbot
-            setTimeout(() => {
-                let botResponse = 'Saya belum mengerti pertanyaan Anda. Coba tanyakan tentang "tiket" atau "destinasi".';
-                const lowerMsg = message.toLowerCase();
-
-                if (lowerMsg.includes('tiket') || lowerMsg.includes('harga')) {
-                    botResponse = 'Informasi tiket dapat Anda temukan di bagian Reservasi. Tiket dewasa mulai dari €25.';
-                } else if (lowerMsg.includes('destinasi') || lowerMsg.includes('tempat')) {
-                    botResponse = 'Kami merekomendasikan Dolomiti, Milan, dan Venesia. Ingin detail salah satunya?';
-                } else if (lowerMsg.includes('cuaca')) {
-                    botResponse = document.getElementById('current-weather').textContent;
-                } else if (lowerMsg.includes('terima kasih')) {
-                    botResponse = 'Sama-sama! Senang melayani Anda.';
-                }
-                
-                appendMessage(botResponse, 'bot');
-            }, 1000);
-        };
-
-        const appendMessage = (text, sender) => {
-            const msgDiv = document.createElement('div');
-            msgDiv.classList.add('chat-message', sender, 'p-3', 'rounded-lg', 'max-w-[80%]', 'shadow-sm');
-            msgDiv.textContent = text;
-
-            if (sender === 'user') {
-                msgDiv.classList.add('bg-accent/80', 'text-bg-light', 'ml-auto');
-            } else {
-                msgDiv.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-text-dark', 'dark:text-text-light', 'mr-auto');
-            }
-            chatBody.appendChild(msgDiv);
-            chatBody.scrollTop = chatBody.scrollHeight; // Auto-scroll
-        };
-        
-        // --- 3.i: Virtual Tour Placeholder Function ---
-        const openVirtualTour = () => {
-            showMessageBox("Memuat Virtual Tour 360°... (Ini adalah simulasi, akan diarahkan ke halaman virtual tour di implementasi penuh.)");
-        };
-
-        // --- Gaya untuk elemen-elemen berulang (didefinisikan dalam JS untuk kebersihan) ---
-        // Catatan: Dalam produksi, ini lebih baik diintegrasikan ke dalam konfigurasi tailwind.config
-
-        const styleSheet = document.createElement("style");
-        styleSheet.textContent = `
-            .nav-link {
-                @apply hover:text-accent dark:hover:text-accent font-medium transition duration-300 p-2 rounded-lg;
-            }
-            .btn-primary {
-                @apply bg-accent text-bg-light font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-700 transition duration-300 flex items-center justify-center mx-auto lg:mx-0;
-            }
-            .btn-secondary {
-                @apply border border-accent text-accent font-bold py-3 px-8 rounded-full shadow-md hover:bg-accent hover:text-bg-light transition duration-300;
-            }
-            .btn-sidebar-quick-link {
-                @apply bg-primary/10 dark:bg-gray-700 text-primary dark:text-gray-300 font-medium py-3 px-4 rounded-xl hover:bg-accent/20 dark:hover:bg-accent/40 transition duration-300 flex items-center justify-center text-sm;
-            }
-            .section-title {
-                @apply text-3xl sm:text-4xl font-extrabold mb-4 border-b-2 border-accent inline-block pb-1 text-primary dark:text-bg-light;
-            }
-            .form-input {
-                @apply w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-accent focus:border-accent dark:bg-gray-700 dark:text-text-light transition duration-300;
-            }
-            .gallery-img {
-                @apply object-cover rounded-xl shadow-md hover:scale-[1.02] transition-transform duration-500 cursor-pointer;
-            }
-            .share-icon {
-                @apply w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-sm font-bold text-primary dark:text-accent hover:bg-accent hover:text-bg-light cursor-pointer transition;
-            }
-            .footer-link {
-                @apply hover:text-accent transition duration-300;
-            }
-            .social-icon {
-                @apply w-8 h-8 flex items-center justify-center rounded-full bg-accent text-primary dark:text-bg-light hover:scale-110 transition duration-300 font-bold;
-            }
-            .sidebar-article-link {
-                @apply text-sm text-primary dark:text-gray-300 hover:text-accent transition duration-300 block font-medium;
-            }
-            
-        `;
-        document.head.appendChild(styleSheet);
-    </script>
-</body>
+    document.querySelectorAll('.fade-in').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c828c1016a58369',t:'MTc3MDEyODE5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
